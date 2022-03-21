@@ -14,10 +14,16 @@ trait Course:
   def teacher: String
 
 object Student:
-  def apply(name: String, year: Int = 2017): Student = ???
+  def apply(name: String, year: Int = 2017): Student = StudentImpl(name, year)
+  private case class StudentImpl(override val name: String, override val year: Int) extends Student:
+    var coursesList: List[Course] = Nil()
+    override def enrolling(course: Course): Unit = coursesList = append(coursesList, Cons(course, Nil()))
+    override def courses: List[String] = reverse(map(coursesList)(_.name))
+    override def hasTeacher(teacher: String): Boolean = contains(map(coursesList)(_.teacher), teacher)
 
 object Course:
-  def apply(name: String, teacher: String): Course = ???
+  def apply(name: String, teacher: String): Course = CourseImpl(name, teacher)
+  private case class CourseImpl(override val name: String, override val teacher: String) extends Course
 
 @main def checkStudents(): Unit =
   val cPPS = Course("PPS", "Viroli")
