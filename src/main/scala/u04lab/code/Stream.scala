@@ -3,6 +3,8 @@ package u04lab.code
 import scala.util.Random
 import List.*
 
+import scala.annotation.tailrec
+
 enum Stream[A]:
   private case Empty()
   private case Cons(head: () => A, tail: () => Stream[A])
@@ -33,6 +35,7 @@ object Stream:
     case (Cons(head, tail), n) if n > 0 => cons(head(), take(tail())(n - 1))
     case _ => Empty()
 
+  @tailrec
   def drop[A](stream: Stream[A])(howMany: Int): Stream[A] = stream match
     case Cons(h, t) if howMany > 0 => drop(t())(howMany - 1)
     case rest => rest
