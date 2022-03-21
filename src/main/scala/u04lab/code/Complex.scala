@@ -8,7 +8,7 @@ trait Complex:
 
 object Complex:
   def apply(re: Double, im: Double): Complex = ComplexImpl(re, im)
-  private class ComplexImpl(override val re: Double, override val im: Double) extends Complex:
+  private case class ComplexImpl(override val re: Double, override val im: Double) extends Complex:
     override def +(c: Complex): Complex = Complex(c.re + re, c.im + im)
     override def *(c: Complex): Complex = Complex(c.re * re - c.im * im, c.re * im + c.im * re)
 
