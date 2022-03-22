@@ -26,6 +26,15 @@ object Course:
   def apply(name: String, teacher: String): Course = CourseImpl(name, teacher)
   private case class CourseImpl(override val name: String, override val teacher: String) extends Course
 
+object sameTeacher:
+  def unapply(courses: List[Course]): scala.Option[String] =
+    val teachers = map(courses)(_.teacher)
+    teachers match
+      case Cons(h, t) => if foldLeft(map(teachers)(_ == h))(true)(_ && _)
+        then scala.Option(h) else scala.Option.empty
+      case _ => scala.Option.empty
+
+
 @main def checkStudents(): Unit =
   val cPPS = Course("PPS", "Viroli")
   val cPCD = Course("PCD", "Ricci")
