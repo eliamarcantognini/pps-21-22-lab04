@@ -16,9 +16,9 @@ trait Course:
 object Student:
   def apply(name: String, year: Int = 2017): Student = StudentImpl(name, year)
   private case class StudentImpl(override val name: String, override val year: Int) extends Student:
-    var coursesList: List[Course] = Nil()
+    private var coursesList: List[Course] = Nil()
     override def enrolling(courses: Course*): Unit =
-      courses.foreach(course => coursesList = append(Cons(course, Nil()), coursesList))
+      courses.foreach(course => coursesList = Cons(course, coursesList))
     override def courses: List[String] = map(coursesList)(_.name)
     override def hasTeacher(teacher: String): Boolean = contains(map(coursesList)(_.teacher), teacher)
 
